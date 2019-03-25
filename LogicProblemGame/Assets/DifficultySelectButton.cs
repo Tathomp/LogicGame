@@ -7,10 +7,10 @@ public class DifficultySelectButton : MonoBehaviour {
 
     public DifficultySelectEnum DifficultySelected;
 
-	public void ButtonClicked()
+	public void ButtonClicked(string levelSceneName)
     {
         QuestionSceneManager.CURRENT_DIFFICULTY = DifficultySelected;
         Debug.Log("Player selected " + DifficultySelected + " to play.");
-        SceneManager.LoadScene("QuestionScene");
+        SceneManager.LoadScene(levelSceneName);
     }
 }
