@@ -7,7 +7,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
     // editor
     public TextMeshProUGUI[] Questions, Blanks, Answers;
-
+    public TextMeshProUGUI resultsHeader;
 
     public MultipleChoiceQuestion currQuestion;
 
@@ -17,7 +17,8 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
     //user input
     int currSelection;
     bool selectAnswer;
-    
+
+    public GameObject questionSelected;
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +43,11 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
             {
                 currSelection = 3;
             }
+
+            questionSelected.transform.SetParent(Blanks[currSelection].transform);
+            questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
+
+
         }
         else if(Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -51,17 +57,20 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
             {
                 currSelection = 0;
             }
+
+            questionSelected.transform.SetParent(Blanks[currSelection].transform);
+            questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
         }
         else if(Input.GetKeyDown(KeyCode.Return))
         {
             //selectAnswer = true;
             if( CheckForCorrectness())
             {
-                Debug.Log("All answers are correct!");
+                resultsHeader.text = ("All answers are correct!");
             }
             else
             {
-                Debug.Log("Some answers are wrong");
+                resultsHeader.text = ("Some answers are wrong");
             }
 
         }
