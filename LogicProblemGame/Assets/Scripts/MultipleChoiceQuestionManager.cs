@@ -35,7 +35,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 	void Update () {
 
     
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetButtonDown("LeftJoyStickVert"))
         {
             currSelection--;
 
@@ -49,7 +49,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
 
         }
-        else if(Input.GetKeyDown(KeyCode.DownArrow))
+        else if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetButtonDown("LeftJoyStickVert"))
         {
             currSelection++;
 
@@ -75,27 +75,27 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetButtonDown("A"))
         {
             Debug.Log("User selected answer 1");
             userAnswer[currSelection] = 1;
             Blanks[currSelection].text = Answers[0].text;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("B"))
         {
             Debug.Log("User selected answer 2");
             userAnswer[currSelection] = 2;
             Blanks[currSelection].text = Answers[1].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("X"))
             {
                 Debug.Log("User selected answer 3");
                 userAnswer[currSelection] = 3;
             Blanks[currSelection].text = Answers[2].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetButtonDown("Y"))
         {
                 Debug.Log("User selected answer 4");
                 userAnswer[currSelection] = 4;
