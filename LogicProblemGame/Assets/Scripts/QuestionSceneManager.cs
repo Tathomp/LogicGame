@@ -10,6 +10,9 @@ public class QuestionSceneManager : MonoBehaviour {
 
     public TextMeshProUGUI label;
 
+
+    Queue<Question> questionPool;
+
 	// Use this for initialization
 	void Start () {
         InitLevelHeader();
@@ -41,4 +44,15 @@ public class QuestionSceneManager : MonoBehaviour {
         }
 
     }
+
+    private void GenerateQuestions()
+    {
+
+    }
+
+    public void NextQuestion()
+    {
+
+    }
 }
+
