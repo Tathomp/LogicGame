@@ -5,12 +5,14 @@ using UnityEngine;
 public class CircuitQuestion 
 {
     public string filepath;
-    public string[] answers;
-    public string correctAnswer;
+    public string question;
+    public bool answer;
 
-    public CircuitQuestion()
+    public CircuitQuestion(string fp, string question, bool answer)
     {
-        answers = new string[4];
+        this.filepath = fp;
+        this.answer = answer;
+        this.question = question;
     }
 
 }

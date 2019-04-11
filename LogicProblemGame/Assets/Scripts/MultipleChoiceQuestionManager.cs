@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MultipleChoiceQuestionManager : MonoBehaviour {
 
@@ -35,7 +36,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 	void Update () {
 
     
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetButtonDown("LeftJoyStickVert"))
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Joystick1Button4))
         {
             currSelection--;
 
@@ -49,7 +50,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
 
         }
-        else if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetButtonDown("LeftJoyStickVert"))
+        else if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Joystick1Button5))
         {
             currSelection++;
 
@@ -64,6 +65,12 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
         else if(Input.GetKeyDown(KeyCode.Return))
         {
             //selectAnswer = true;
+
+            if(resultsHeader.text != "")
+            {
+                SceneManager.LoadScene("CiruitQuestion");
+            }
+
             if( CheckForCorrectness())
             {
                 resultsHeader.text = ("All answers are correct!");
@@ -75,27 +82,27 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetButtonDown("A"))
+        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("User selected answer 1");
             userAnswer[currSelection] = 1;
             Blanks[currSelection].text = Answers[0].text;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetButtonDown("B"))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("User selected answer 2");
             userAnswer[currSelection] = 2;
             Blanks[currSelection].text = Answers[1].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetButtonDown("X"))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Y))
             {
                 Debug.Log("User selected answer 3");
                 userAnswer[currSelection] = 3;
             Blanks[currSelection].text = Answers[2].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetButtonDown("Y"))
+        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.X))
         {
                 Debug.Log("User selected answer 4");
                 userAnswer[currSelection] = 4;
@@ -148,7 +155,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
 
 
-            Answers[i].text = (i + 1) + " " + choice.Answer;
+            Answers[i].text = choice.Answer;
 
             correctAnswers[currQuestionNumber - 1] = i;
             //place that index in the corrent answer array

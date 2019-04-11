@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ALUQuestionManager : MonoBehaviour
 {
-    public TextMeshProUGUI question, resultsLabel;
+    public TextMeshProUGUI question, correctLabel;
 
     private ALUQuestion currQuestion;
     private Queue<ALUQuestion> questionPool;
@@ -47,6 +47,11 @@ public class ALUQuestionManager : MonoBehaviour
         {
             CheckAnswer("nor");
         }
+        else if (Input.GetKeyDown(KeyCode.Return) && correctLabel.text != "")
+        {
+            SceneManager.LoadScene("DifficultySelect");
+
+        }
     }
 
     private void GenerateQuestions()
@@ -71,8 +76,7 @@ public class ALUQuestionManager : MonoBehaviour
         }
         else
         {
-            resultsLabel.text = ("Game Oover");
-            SceneManager.LoadScene("DifficultySelect");
+            correctLabel.text = ("Game Oover");
         }
     }
 
@@ -85,11 +89,11 @@ public class ALUQuestionManager : MonoBehaviour
     {
         if(userAnser == currQuestion.answer)
         {
-            resultsLabel.text = ("Correct");
+            correctLabel.text = ("Correct");
         }
         else
         {
-            resultsLabel.text = ("Wrong");
+            correctLabel.text = ("Wrong");
         }
 
         NextQuestion();
