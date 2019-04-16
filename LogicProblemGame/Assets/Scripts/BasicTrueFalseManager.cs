@@ -40,12 +40,12 @@ public class BasicTrueFalseManager : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button0))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             Debug.Log("User selected answer A");
             CheckAnswer(true);
         }
-        else if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.Joystick1Button1))
+        else if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             Debug.Log("User selected answer B");
             CheckAnswer(false);

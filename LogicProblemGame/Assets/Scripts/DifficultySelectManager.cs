@@ -64,7 +64,7 @@ public class DifficultySelectManager : MonoBehaviour {
         }
 
 
-        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button3))
+        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button2))
         {
             ChangeToWhiteTest();
         }
@@ -72,7 +72,7 @@ public class DifficultySelectManager : MonoBehaviour {
         {
             ChangeToPurpleTest();
         }
-        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Joystick1Button2))
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
             ChangeToGoldTest();
         }

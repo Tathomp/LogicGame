@@ -118,27 +118,27 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("User selected answer 1");
             userAnswer[currSelection] = 1;
             Blanks[currSelection].text = Answers[0].text;
         }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("User selected answer 2");
             userAnswer[currSelection] = 2;
             Blanks[currSelection].text = Answers[1].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button3) || Input.GetKeyDown(KeyCode.Y))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.Y))
             {
                 Debug.Log("User selected answer 3");
                 userAnswer[currSelection] = 3;
             Blanks[currSelection].text = Answers[2].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button3) || Input.GetKeyDown(KeyCode.X))
         {
             Debug.Log("User selected answer 4");
             userAnswer[currSelection] = 4;
