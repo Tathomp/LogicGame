@@ -890,15 +890,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.0000076293945
       objectReference: {fileID: 0}
+    - target: {fileID: 3363261418703972693, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363261418703972693, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 703.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -289
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
         type: 3}
@@ -909,6 +919,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 631.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363261417465605803, guid: 9ff684fbfc336024c985c2065bbd4200,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3363261418703972694, guid: 9ff684fbfc336024c985c2065bbd4200,
         type: 3}

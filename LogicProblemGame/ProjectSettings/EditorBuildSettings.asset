@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/DifficultySelect.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
     path: Assets/Scenes/QuestionScene.unity
     guid: 6b09090a6c3369f4796c97bfb95fb0b0
   - enabled: 1
@@ -15,9 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CiruitQuestion.unity
     guid: 3a1e6b3450d0d834390e8a87a150a34d
   - enabled: 1
-    path: Assets/Scenes/DifficultySelect.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/MultipleChoiceScene.unity
     guid: 68da61487cd9c5b41a1bd3e5ab7c953a
+  - enabled: 1
+    path: Assets/Scenes/BasicTrueFalse.unity
+    guid: 3c405fc792118234ab00ad6d26885926
   m_configObjects: {}

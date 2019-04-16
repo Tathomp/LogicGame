@@ -18,6 +18,10 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
     //user input
     int currSelection;
     bool selectAnswer;
+    bool axisInUSe = false;
+
+    int curr_score, questionsRight, questionsWrong, questionThreshold = 2;
+    bool goToNextQuestion = false, redoQuestion = false;
 
     public GameObject questionSelected;
 
@@ -25,6 +29,7 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 	void Start () {
 
         currSelection = 0;
+        curr_score = 0;
 
         GenerateTestQuestion();
 
@@ -35,81 +40,116 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-    
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Joystick1Button4))
+        if (Input.GetAxisRaw("Vertical") == 0)
         {
-            currSelection--;
+            axisInUSe = false;
+        }
 
-            if(currSelection == -1)
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxisRaw("Vertical") == 1)
+        {
+            if(axisInUSe == false)
             {
-                currSelection = 3;
+                axisInUSe = true;
+
+                currSelection--;
+
+                if (currSelection == -1)
+                {
+                    currSelection = 4;
+                }
+
+                questionSelected.transform.SetParent(Blanks[currSelection].transform);
+                questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
+
             }
 
-            questionSelected.transform.SetParent(Blanks[currSelection].transform);
-            questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
 
 
         }
-        else if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.Joystick1Button5))
+        else if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") <= -0.9f)
         {
-            currSelection++;
-
-            if(currSelection == 4)
+            if(axisInUSe == false)
             {
-                currSelection = 0;
-            }
+                axisInUSe = true;
 
-            questionSelected.transform.SetParent(Blanks[currSelection].transform);
-            questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
+                currSelection++;
+
+                if (currSelection == 5)
+                {
+                    currSelection = 0;
+                }
+
+                questionSelected.transform.SetParent(Blanks[currSelection].transform);
+                questionSelected.transform.position = new Vector3(questionSelected.transform.position.x, Blanks[currSelection].transform.position.y, 0);
+
+            }
         }
-        else if(Input.GetKeyDown(KeyCode.Return))
+        else if(Input.GetKeyDown(KeyCode.Joystick1Button7))
         {
             //selectAnswer = true;
+            CheckForCorrectness();
 
-            if(resultsHeader.text != "")
+            if(redoQuestion)
             {
-                SceneManager.LoadScene("CiruitQuestion");
+                SceneManager.LoadScene("MultipleChoiceScene");
+                return;
             }
 
-            if( CheckForCorrectness())
+            if(goToNextQuestion)
             {
-                resultsHeader.text = ("All answers are correct!");
+                SceneManager.LoadScene("CiruitQuestion");
+                return;
+            }
+
+
+            if(questionsRight >= questionThreshold && !redoQuestion && !goToNextQuestion)
+            {
+                DifficultySelectManager.CURRENT_SCORE += curr_score;
+          
+                resultsHeader.text = questionsRight + " questions right out of " + (questionsRight + questionsWrong) + "\nPoints Earned: " + curr_score + "\nTotal Points: " + DifficultySelectManager.CURRENT_SCORE;
+                goToNextQuestion = true;
             }
             else
             {
-                resultsHeader.text = ("Some answers are wrong");
+                resultsHeader.text = questionsRight + " question right. Not enough points to continue, please retake test.";
+                curr_score = 0;
+                redoQuestion = true;
             }
 
         }
 
-        else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("User selected answer 1");
             userAnswer[currSelection] = 1;
             Blanks[currSelection].text = Answers[0].text;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("User selected answer 2");
             userAnswer[currSelection] = 2;
             Blanks[currSelection].text = Answers[1].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Y))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button3) || Input.GetKeyDown(KeyCode.Y))
             {
                 Debug.Log("User selected answer 3");
                 userAnswer[currSelection] = 3;
             Blanks[currSelection].text = Answers[2].text;
 
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.X))
         {
-                Debug.Log("User selected answer 4");
-                userAnswer[currSelection] = 4;
-                Blanks[currSelection].text = Answers[3].text;
+            Debug.Log("User selected answer 4");
+            userAnswer[currSelection] = 4;
+            Blanks[currSelection].text = Answers[3].text;
         }
-
-        Debug.Log(currSelection);
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button5) || Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("User selected answer 5");
+            userAnswer[currSelection] = 5;
+            Blanks[currSelection].text = Answers[4].text;
+        }
 
     }
 
@@ -117,9 +157,11 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
     {
         currQuestion = new MultipleChoiceQuestion();
 
-        currQuestion.choices.Add(new Choice("Cats", "meow"));
-        currQuestion.choices.Add(new Choice("Dogs", "bark"));
-        currQuestion.choices.Add(new Choice("Cows", "moo"));
+        currQuestion.choices.Add(new Choice("Double Negation", "~(~p)"));
+        currQuestion.choices.Add(new Choice("Identiy Law","p v ~ t == p"));
+        currQuestion.choices.Add(new Choice("De Morgan's Law", "~(p ^ q) == ~p v ~q"));
+        currQuestion.choices.Add(new Choice("Commtative law", "p ^ q == q ^ p"));
+        currQuestion.choices.Add(new Choice("Distribution law", "x ^ (y v z) == (x ^ y) v (x ^ z)"));
     }
 
     public void DisplayQuestion()
@@ -168,12 +210,25 @@ public class MultipleChoiceQuestionManager : MonoBehaviour {
 
     public bool CheckForCorrectness()
     {
+
+
         for (int i = 0; i < userAnswer.Length; i++)
         {
             if(userAnswer[i] != correctAnswers[i] + 1)
             {
-                return false;
+                questionsWrong++;
             }
+            else
+            {
+                questionsRight++;
+                curr_score += 15;
+            }
+
+        }
+
+        if(questionsWrong > 0)
+        {
+            return false;
         }
 
         return true;

@@ -12,6 +12,9 @@ public class ALUQuestionManager : MonoBehaviour
     private Queue<ALUQuestion> questionPool;
 
 
+    int curr_score, questionsRight, questionsWrong, questionThreshold = 2;
+    bool goToNextQuestion = false, redoQuestion = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,33 +26,38 @@ public class ALUQuestionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             CheckAnswer("and");
         }
-        else if(Input.GetKeyDown(KeyCode.B))
+        else if(Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             CheckAnswer("or");
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Joystick1Button2))
         {
             CheckAnswer("add");
         }
-        else if (Input.GetKeyDown(KeyCode.Y))
+        else if (Input.GetKeyDown(KeyCode.Y) || Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
             CheckAnswer("subtract");
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Joystick1Button5))
         {
             CheckAnswer("slt");
         }
-        else if (Input.GetKeyDown(KeyCode.L))
+        else if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Joystick1Button4))
         {
             CheckAnswer("nor");
         }
-        else if (Input.GetKeyDown(KeyCode.Return) && correctLabel.text != "")
+        else if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Joystick1Button7)) && goToNextQuestion)
         {
             SceneManager.LoadScene("DifficultySelect");
+
+        }
+        else if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Joystick1Button7)) && redoQuestion)
+        {
+            SceneManager.LoadScene("ALUQuestion");
 
         }
     }
@@ -64,6 +72,22 @@ public class ALUQuestionManager : MonoBehaviour
         q = new ALUQuestion("0", "1", "10", "subtract");
         questionPool.Enqueue(q);
 
+
+        q = new ALUQuestion("0", "0", "01", "or");
+        questionPool.Enqueue(q);
+
+
+        q = new ALUQuestion("1", "1", "00", "nor");
+        questionPool.Enqueue(q);
+
+
+        q = new ALUQuestion("0", "0", "10", "add");
+        questionPool.Enqueue(q);
+
+
+        q = new ALUQuestion("0", "1", "11", "slt");
+        questionPool.Enqueue(q);
+
         NextQuestion();
     }
 
@@ -76,7 +100,18 @@ public class ALUQuestionManager : MonoBehaviour
         }
         else
         {
-            correctLabel.text = ("Game Oover");
+            if (questionsRight >= questionThreshold)
+            {
+                goToNextQuestion = true;
+                DifficultySelectManager.CURRENT_SCORE += curr_score;
+                correctLabel.text = questionsRight + " questions right out " + (questionsRight + questionsWrong) + "\nPoints Earned: " + curr_score + "\nTotal Points: " + DifficultySelectManager.CURRENT_SCORE;
+            }
+            else
+            {
+                redoQuestion = true;
+                correctLabel.text = questionsRight + ". Not enough points to continue, please retake test.";
+                curr_score = 0;
+            }
         }
     }
 
@@ -90,10 +125,13 @@ public class ALUQuestionManager : MonoBehaviour
         if(userAnser == currQuestion.answer)
         {
             correctLabel.text = ("Correct");
+            curr_score += 25;
+            questionsRight++;
         }
         else
         {
             correctLabel.text = ("Wrong");
+            questionsWrong++;
         }
 
         NextQuestion();

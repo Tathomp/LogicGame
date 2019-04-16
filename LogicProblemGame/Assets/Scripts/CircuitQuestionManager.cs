@@ -17,6 +17,11 @@ public class CircuitQuestionManager : MonoBehaviour
     //
     public TextMeshProUGUI levelHeader;
 
+
+    int curr_score, questionsRight, questionsWrong, questionThreshold = 2;
+    bool goToNextQuestion = false, redoQuestion = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,19 +31,24 @@ public class CircuitQuestionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             Debug.Log("User selected answer A");
             CheckAnswer(true);
         }
-        else if (Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             Debug.Log("User selected answer B");
             CheckAnswer(false);
         }
-        else if(Input.GetKeyDown(KeyCode.Return) && correctLabel.text != "")
+        else if((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Joystick1Button7)) && goToNextQuestion)
         {
             SceneManager.LoadScene("ALUQuestion");
+
+        }
+        else if((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Joystick1Button7)) && goToNextQuestion == false)
+        {
+            SceneManager.LoadScene("CircuitQuestion");
 
         }
     }
@@ -47,10 +57,29 @@ public class CircuitQuestionManager : MonoBehaviour
     {
         questionPool = new Queue<CircuitQuestion>();
 
-        CircuitQuestion q = new CircuitQuestion("logicgateOr", "If input A is 1 and input B is 0, what is output q?", false);
+        CircuitQuestion q = new CircuitQuestion("logicgateOr", "If input A is 1 and input B is 0, what is output q?", true);
         questionPool.Enqueue(q);
 
-        q = new CircuitQuestion("andgate", "If input A is 0 and input B is 0, what is output Q?", true);
+        q = new CircuitQuestion("logicgateNot", "If input A is 1, what is output X?", false);
+        questionPool.Enqueue(q);
+
+        q = new CircuitQuestion("logicgateAnd", "If input A is 0 and input B is 1, what is output X?", false);
+        questionPool.Enqueue(q);
+
+        q = new CircuitQuestion("logicgateNand", "If input A is 0 and input B is 0, what is output Q?", true);
+        questionPool.Enqueue(q);
+
+        q = new CircuitQuestion("logicgateNot", "If output X is 1, what is input A?", false);
+        questionPool.Enqueue(q);
+
+
+        q = new CircuitQuestion("logicgateNor", "If input A is 0 and input B is 0, what is output Q?", true);
+        questionPool.Enqueue(q);
+
+        q = new CircuitQuestion("logicgateAnd", "If input A is 1 and input B is 1, what is output X?", true);
+        questionPool.Enqueue(q);
+
+        q = new CircuitQuestion("logicgateNand", "If input A is 1 and output Q is 0, what is input B?", true);
         questionPool.Enqueue(q);
 
         NextQuestion();
@@ -63,10 +92,13 @@ public class CircuitQuestionManager : MonoBehaviour
         if (currQuestion.answer == i)
         {
             correctLabel.text = ("Correct Answer");
+            curr_score +=20;
+            questionsRight++;
         }
         else
         {
             correctLabel.text = ("Answer Wrong");
+            questionsWrong++;
         }
 
         NextQuestion();
@@ -87,6 +119,19 @@ public class CircuitQuestionManager : MonoBehaviour
         }
         else
         {
+
+            if(questionsRight >= questionThreshold)
+            {
+                goToNextQuestion = true;
+                DifficultySelectManager.CURRENT_SCORE += curr_score;
+                correctLabel.text = questionsRight + " questions right out of " + (questionsRight + questionsWrong) + "\nPoints Earned: " + curr_score + "\nTotal Points: " + DifficultySelectManager.CURRENT_SCORE;
+            }
+            else
+            {
+                goToNextQuestion = false;
+                correctLabel.text = questionsRight + " question right. Not enough points to continue, please retake test.";
+                curr_score = 0;
+            }
         }
     }
 }
